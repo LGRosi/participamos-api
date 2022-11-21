@@ -1,0 +1,22 @@
+{
+  "name": "participamos-api",
+  "version": "1.0.0",
+  "description": "Backend de la aplicación Participamos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LGRosi/participamos-api.git"
+  },
+  "keywords": [
+    "Node"
+  ],
+  "author": "Lucas Gonzalo Rosi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LGRosi/participamos-api/issues"
+  },
+  "homepage": "https://github.com/LGRosi/participamos-api#readme"
+}
