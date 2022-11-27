@@ -59,9 +59,16 @@ async function remove(id) {
    }
 }
 
+async function findById(id) {
+   await client.connect();
+
+   return await users.findOne({ _id: ObjectId(id) })
+}
+
 export {
    login,
    find,
    create,
-   remove
+   remove,
+   findById
 }
