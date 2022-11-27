@@ -5,6 +5,25 @@ const client = new MongoClient("mongodb://127.0.0.1:27017");
 const db = client.db("ParticipamosDB");
 const users = db.collection('Users');
 
+
+async function login({ email, password }) {
+   await client.connect();
+
+   const user = await users.findOne({ email });
+
+   if (!user) {
+      throw new Error('El usuario o contraseña son incorrectos');
+   }
+   
+   const isMatch = await bcrypt.compare(password, user.password);
+   
+   if (!isMatch) {
+      throw new Error("El usuario o contraseña son incorrectos");
+   }
+
+   return user;
+}
+
 async function find(filter) {
    await client.connect();
    return await users.find(filter).toArray();
@@ -41,6 +60,7 @@ async function remove(id) {
 }
 
 export {
+   login,
    find,
    create,
    remove
