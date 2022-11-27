@@ -6,6 +6,9 @@ const router = express.Router();
 router.route('/api/users/login')
    .post(usersApiControllers.login);
 
+router.route('/api/users/logout')
+   .post(usersApiControllers.logout);
+
 router.route('/api/users')
    .get(usersApiControllers.find)
    .post(usersApiControllers.create);

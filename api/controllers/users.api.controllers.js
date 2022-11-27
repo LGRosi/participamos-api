@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as usersService from "../../services/users.services.js";
+import * as tokenService from "../../services/token.services.js";
 
 function login(req, res) {
    const user = {
@@ -10,7 +11,22 @@ function login(req, res) {
    usersService.login(user)
       .then(user => {
          const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, 'CLAVE_SECRETA');
+         
+         tokenService.create({ token, user_id: user._id });
+         
          res.json({ token, user });
+      })
+      .catch(err => {
+         res.status(400).json({ message: err.message });
+      })
+}
+
+function logout(req, res) {
+   const token = req.headers['auth-token'];
+
+   tokenService.removeByToken(token)
+      .then(() => {
+         res.json({ message: 'Logout exitoso' });
       })
       .catch(err => {
          res.status(400).json({ message: err.message });
@@ -62,8 +78,9 @@ function remove(req, res) {
 
 
 export {
+   login,
+   logout,
    find,
    create,
    remove,
-   login
 }
