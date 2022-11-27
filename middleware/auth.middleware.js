@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import * as userService from "../services/users.services.js";
+import * as tokenService from "../services/token.services.js";
 
 function isLogin(req, res, next) {
    const token = req.headers['auth-token'];
@@ -11,17 +12,21 @@ function isLogin(req, res, next) {
    try {
       const payload = jwt.verify(token, 'CLAVE_SECRETA');
 
-      userService.findById(payload.id)
-         .then(user => {
-            req.user = user;
-            next();
+      tokenService.findByToken(token)
+         .then(token => {
+            if(token) {
+               userService.findById(payload.id)
+                  .then((user) => {
+                     req.user = user;
+                     next();
+                  });
+            } else {
+               res.status(401).json({ message: 'token inválido' })
+            }
          })
-
    } catch (err) {
       return res.status(401).json({ message: 'Token inválido' });
    }
-
-   // next();
 }
 
 function isUser(req, res, next) {
