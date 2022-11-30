@@ -3,12 +3,8 @@ import * as usersService from "../../services/users.services.js";
 import * as tokenService from "../../services/token.services.js";
 
 function login(req, res) {
-   const user = {
-      email: req.body.email,
-      password: req.body.password
-   }
 
-   usersService.login(user)
+   usersService.login(req.body)
       .then(user => {
          const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, 'CLAVE_SECRETA');
          
