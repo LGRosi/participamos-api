@@ -5,7 +5,7 @@ import { isLogin, isUser } from "../../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.route('*')
-   .all([isLogin, isUser]);
+   // .all([isLogin, isUser]);
 
 router.route("/")
    .get(channelsApiControllers.findAll)
