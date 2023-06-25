@@ -1,9 +1,9 @@
-import * as channelsService from "../../services/channels.services.js";
+import * as supportGroupsService from "../../services/supportGroups.services.js";
 
 function findAll(req, res) {
    const filterChannels = req.query;
 
-   channelsService.bringChannels(filterChannels)
+   supportGroupsService.bringChannels(filterChannels)
       .then(function (channels) {
          res.status(200).json(channels);
       })
@@ -17,7 +17,7 @@ function create(req, res) {
       name: req.body.name
    };
 
-   channelsService.save(channel)
+   supportGroupsService.save(channel)
       .then(function (newChannel) {
          res.status(201).json(newChannel);
       })
