@@ -1,33 +1,33 @@
-import * as supportGroupsService from "../../services/supportGroups.services.js";
+// import * as supportGroupsService from "../../services/supportGroups.services.js";
 
-function findAll(req, res) {
-   const filterChannels = req.query;
+// function findAll(req, res) {
+//    const filterChannels = req.query;
 
-   supportGroupsService.bringChannels(filterChannels)
-      .then(function (channels) {
-         res.status(200).json(channels);
-      })
-      .catch(function (err) {
-         res.status(500).json(err);
-      });
-}
+//    supportGroupsService.bringChannels(filterChannels)
+//       .then(function (channels) {
+//          res.status(200).json(channels);
+//       })
+//       .catch(function (err) {
+//          res.status(500).json(err);
+//       });
+// }
 
-function create(req, res) {
-   const channel = {
-      name: req.body.name
-   };
+// function create(req, res) {
+//    const channel = {
+//       name: req.body.name
+//    };
 
-   supportGroupsService.save(channel)
-      .then(function (newChannel) {
-         res.status(201).json(newChannel);
-      })
-      .catch(function (err) {
-         res.status(500).json(err);
-      });
-}
+//    supportGroupsService.save(channel)
+//       .then(function (newChannel) {
+//          res.status(201).json(newChannel);
+//       })
+//       .catch(function (err) {
+//          res.status(500).json(err);
+//       });
+// }
 
 
-export {
-   findAll,
-   create
-}
+// export {
+//    findAll,
+//    create
+// }
