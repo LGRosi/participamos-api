@@ -13,7 +13,11 @@ const server = http.createServer(app);
 const io = new socketServer(server);
 
 io.on('connection', socket => {
-  console.log('Client Connected');
+  	console.log('Client Connected');
+
+	socket.on("message", (data) => {
+		console.log(data);
+	});
 })
 
 app.use(cors());
@@ -29,5 +33,5 @@ app.use("/api/channels", ChannelsApiRoutes);
 // app.use("/api/supportGroups", SupportGroupsApiRoutes);
 
 server.listen(4000, function () {
-  console.log(`Server is running on port ${4000} | http://localhost:4000`);
+   	console.log(`Server is running on port ${4000} | http://localhost:4000`);
 });
