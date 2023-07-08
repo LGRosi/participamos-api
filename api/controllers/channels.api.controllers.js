@@ -1,6 +1,5 @@
 import * as channelsService from "../../services/channels.services.js";
 
-
 function findAll(req, res) {
    const filterChannels = req.query;
 

@@ -2,7 +2,6 @@ import express from "express";
 import * as usersApiControllers from "../controllers/users.api.controllers.js";
 import { isLoginValidation } from "../../middleware/users-validation.middleware.js";
 
-
 const router = express.Router();
 
 router.route('/api/users/login')
