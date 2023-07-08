@@ -1,10 +1,20 @@
 import cors from "cors";
 import express from "express";
+import http from "http";
+import { Server as socketServer } from "socket.io";
 import UsersApiRoutes from "./api/routers/users.api.routes.js";
 import ChannelsApiRoutes from "./api/routers/channels.api.routes.js";
 // import SupportGroupsApiRoutes from "./api/routers/supportGroups.api.routes.js";
 
 const app = express();
+
+const server = http.createServer(app);
+
+const io = new socketServer(server);
+
+io.on('connection', socket => {
+  console.log('Client Connected');
+})
 
 app.use(cors());
 
@@ -18,6 +28,6 @@ app.use("/api/channels", ChannelsApiRoutes);
 
 // app.use("/api/supportGroups", SupportGroupsApiRoutes);
 
-app.listen(4000, function () {
+server.listen(4000, function () {
   console.log(`Server is running on port ${4000} | http://localhost:4000`);
 });
