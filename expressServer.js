@@ -15,8 +15,11 @@ const io = new socketServer(server);
 io.on('connection', socket => {
   	console.log('Client Connected');
 
-	socket.on("message", (data) => {
-		console.log(data);
+	socket.on("message", (bodyMessage) => {
+		socket.broadcast.emit("message", {
+			bodyMessage,
+			from: socket.id
+		});
 	});
 })
 
