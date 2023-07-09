@@ -4,6 +4,7 @@ import http from "http";
 import { Server as socketServer } from "socket.io";
 import UsersApiRoutes from "./api/routers/users.api.routes.js";
 import ChannelsApiRoutes from "./api/routers/channels.api.routes.js";
+import MessagesApiRoutes from "./api/routers/messages.api.routes.js";
 // import SupportGroupsApiRoutes from "./api/routers/supportGroups.api.routes.js";
 
 const app = express();
@@ -32,6 +33,8 @@ app.use(express.json());
 app.use(UsersApiRoutes);
 
 app.use("/api/channels", ChannelsApiRoutes);
+
+app.use("/api/messages", MessagesApiRoutes);
 
 // app.use("/api/supportGroups", SupportGroupsApiRoutes);
 
