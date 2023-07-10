@@ -21,6 +21,7 @@ async function bringMessages(filterMessages = {}) {
 async function save(message) {
     const newMessage = {
         ...message,
+        dateTime: new Date().toISOString()
     };
 
     return client.connect()
