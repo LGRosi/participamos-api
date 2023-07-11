@@ -5,16 +5,16 @@ import { isLoginValidation } from "../../middleware/users-validation.middleware.
 const router = express.Router();
 
 router.route('/api/users/login')
-   .post([isLoginValidation], usersApiControllers.login);
+    .post([isLoginValidation], usersApiControllers.login);
 
 router.route('/api/users/logout')
-   .post(usersApiControllers.logout);
+    .post(usersApiControllers.logout);
 
 router.route('/api/users')
-   .get(usersApiControllers.find)
-   .post(usersApiControllers.create);
+    .get(usersApiControllers.find)
+    .post(usersApiControllers.create);
 
 router.route('/api/users/:id')
-   .delete(usersApiControllers.remove);
+    .delete(usersApiControllers.remove);
 
 export default router;
