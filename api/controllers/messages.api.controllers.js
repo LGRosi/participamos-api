@@ -1,31 +1,29 @@
 import * as messagesService from "../../services/messages.services.js";
 
-function findAll(req, res) {
+async function findAll(req, res) {
     const filterMessages = req.query;
 
-    messagesService.bringMessages(filterMessages)
-        .then(function (messages) {
-            res.status(200).json(messages);
-        })
-        .catch(function (err) {
-            res.status(500).json(err);
-        });
+    try {
+        const messages = await messagesService.bringMessages(filterMessages);
+        res.status(200).json(messages);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 }
 
-function create(req, res) {
+async function create(req, res) {
     const message = {
         bodyMessage: req.body.bodyMessage,
         from: req.body.from,
     };
 
-    messagesService.save(message)
-        .then(function (newMessage) {
-            res.status(201).json(newMessage);
-        })
-        .catch(function (err) {
-            console.error("Error saving message:", err);
-            res.status(500).json({ err: "Internal server error" });
-        });
+    try {
+        const newMessage = await messagesService.save(message);
+        res.status(201).json(newMessage);
+    } catch (error) {
+        console.error("Error al guardar el mensaje:", error);
+        res.status(500).json({ err: "Internal server error" });
+    }
 }
 
 export {
