@@ -9,13 +9,13 @@ async function bringMessages(filterMessages = {}) {
         filterMessages = {};
     }
 
-    return client.connect()
-        .then(async function () {
-            return messages.find(filterMessages).toArray();
-        })
-        .catch(function (err) {
-            return [];
-        })
+    try {
+        await client.connect();
+        return await messages.find(filterMessages).toArray();
+
+    } catch (error) {
+        return [];
+    }
 }
 
 async function save(message) {
@@ -24,13 +24,14 @@ async function save(message) {
         dateTime: new Date().toISOString()
     };
 
-    return client.connect()
-        .then(function () {
-            return messages.insertOne(newMessage);
-        })
-        .then(function () {
-            return newMessage;
-        })
+    try {
+        await client.connect();
+        await messages.insertOne(newMessage);
+        return newMessage;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error al guardar el mensaje");
+    }
 }
 
 export {
