@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
-import http from "http";
+import http from "node:http";
+import picocolors from "picocolors";
 import { Server as socketServer } from "socket.io";
 import UsersApiRoutes from "./api/routers/users.api.routes.js";
 import ChannelsApiRoutes from "./api/routers/channels.api.routes.js";
@@ -14,7 +15,7 @@ const server = http.createServer(app);
 const io = new socketServer(server);
 
 io.on('connection', socket => {
-  	console.log('Client Connected');
+  	console.log(picocolors.green("Client Connected"));
 
 	socket.on("message", (bodyMessage) => {
 		socket.broadcast.emit("message", {
@@ -39,5 +40,5 @@ app.use("/api/messages", MessagesApiRoutes);
 // app.use("/api/supportGroups", SupportGroupsApiRoutes);
 
 server.listen(4000, function () {
-   	console.log(`Server is running on port ${4000} | http://localhost:4000`);
+   	console.log(picocolors.blue(`Server is running on port ${4000} | http://localhost:4000`));
 });

@@ -1,4 +1,5 @@
 import * as messagesService from "../../services/messages.services.js";
+import picocolors from "picocolors";
 
 async function findAll(req, res) {
     const filterMessages = req.query;
@@ -21,7 +22,7 @@ async function create(req, res) {
         const newMessage = await messagesService.save(message);
         res.status(201).json(newMessage);
     } catch (error) {
-        console.error("Error al guardar el mensaje:", error);
+        console.error(picocolors.red("Error al guardar el mensaje", error));
         res.status(500).json({ err: "Internal server error" });
     }
 }
