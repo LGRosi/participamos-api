@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import picocolors from "picocolors";
 
 const client = new MongoClient("mongodb://127.0.0.1:27017");
 const db = client.db("ParticipamosDB");
@@ -29,7 +30,7 @@ async function save(message) {
         await messages.insertOne(newMessage);
         return newMessage;
     } catch (error) {
-        console.error(error);
+        console.error(picocolors.red('Error al guardar el mensaje', error));
         throw new Error("Error al guardar el mensaje");
     }
 }
