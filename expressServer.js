@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import http from "http";
+import http from "node:http";
 import { Server as socketServer } from "socket.io";
 import UsersApiRoutes from "./api/routers/users.api.routes.js";
 import ChannelsApiRoutes from "./api/routers/channels.api.routes.js";
