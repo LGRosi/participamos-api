@@ -1,33 +1,25 @@
-import { MongoClient } from "mongodb";
 import picocolors from "picocolors";
 
-const client = new MongoClient("mongodb://127.0.0.1:27017");
-const db = client.db("ParticipamosDB");
-const messages = db.collection("Messages");
-
-async function bringMessages(filterMessages = {}) {
+async function bringMessages(filterMessages = {}, dbCollection) {
     if (!filterMessages.name) {
         filterMessages = {};
     }
 
     try {
-        await client.connect();
-        return await messages.find(filterMessages).toArray();
-
+        return await dbCollection.find(filterMessages).toArray();
     } catch (error) {
         return [];
     }
 }
 
-async function save(message) {
+async function save(message, dbCollection) {
     const newMessage = {
         ...message,
         dateTime: new Date().toISOString()
     };
 
     try {
-        await client.connect();
-        await messages.insertOne(newMessage);
+        await dbCollection.insertOne(newMessage);
         return newMessage;
     } catch (error) {
         console.error(picocolors.red('Error al guardar el mensaje', error));

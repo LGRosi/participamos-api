@@ -1,7 +1,7 @@
-import { loginScheme } from "../schemes/users.schemes.js";
+import { loginSchema } from "../schema/users.schema.js";
 
 function isLoginValidation(req, res, next) {
-    loginScheme.validate(req.body, {abortEarly: false})
+    loginSchema.validate(req.body, {abortEarly: false})
         .then(data => {
             req.body = data;
             next();
