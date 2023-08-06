@@ -21,7 +21,7 @@ async function create(req, res) {
         res.status(201).json(newMessage);
     } catch (error) {
         console.error(picocolors.red("Error al guardar el mensaje", error));
-        res.status(500).json({ err: "Internal server error" });
+        res.status(500).json({ error: "Error interno del servidor" });
     }
 }
 
