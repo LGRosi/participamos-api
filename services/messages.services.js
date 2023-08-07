@@ -7,6 +7,7 @@ async function bringMessages(filterMessages = {}, dbCollection) {
 
     try {
         return await dbCollection.find(filterMessages).toArray();
+
     } catch (error) {
         return [];
     }
@@ -21,6 +22,7 @@ async function save(message, dbCollection) {
     try {
         await dbCollection.insertOne(newMessage);
         return newMessage;
+        
     } catch (error) {
         console.error(picocolors.red('Error al guardar el mensaje', error));
         throw new Error("Error al guardar el mensaje");

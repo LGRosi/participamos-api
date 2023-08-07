@@ -4,8 +4,9 @@ async function findAll(req, res) {
     try {
         const channels = await bringChannels(req.query, req.db.collection("Channels"));
         res.status(200).json(channels);
-    } catch (err) {
-        res.status(500).json(err);
+
+    } catch (error) {
+        res.status(500).json(error);
     }
 }
 
@@ -17,6 +18,7 @@ async function create(req, res) {
     try {
         const newChannel = await save(channel, req.db.collection("Channels"));
         res.status(201).json(newChannel);
+        
     } catch (error) {
         console.error(picocolors.red("Error al guardar el canal", error));
         res.status(500).json({ error: "Error interno del servidor" });
