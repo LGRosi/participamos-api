@@ -1,14 +1,13 @@
-import * as messagesService from "../../services/messages.services.js";
 import picocolors from "picocolors";
+import { bringMessages, save } from "../../services/messages.services.js";
 
 async function findAll(req, res) {
-    const filterMessages = req.query;
-
     try {
-        const messages = await messagesService.bringMessages(filterMessages);
+        const messages = await bringMessages(req.query, req.db.collection("Messages"));
         res.status(200).json(messages);
-    } catch (err) {
-        res.status(500).json(err);
+
+    } catch (error) {
+        res.status(500).json(error);
     }
 }
 
@@ -19,11 +18,12 @@ async function create(req, res) {
     };
 
     try {
-        const newMessage = await messagesService.save(message);
+        const newMessage = await save(message, req.db.collection("Messages"));
         res.status(201).json(newMessage);
+        
     } catch (error) {
         console.error(picocolors.red("Error al guardar el mensaje", error));
-        res.status(500).json({ err: "Internal server error" });
+        res.status(500).json({ error: "Error interno del servidor" });
     }
 }
 

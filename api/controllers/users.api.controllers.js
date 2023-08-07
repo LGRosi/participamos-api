@@ -2,76 +2,74 @@ import jwt from "jsonwebtoken";
 import * as usersService from "../../services/users.services.js";
 import * as tokenService from "../../services/token.services.js";
 
-function login(req, res) {
+async function login(req, res) {
+	try {
+		const user = await usersService.login(req.body);
+		const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, 'CLAVE_SECRETA');
+		await tokenService.create({ token, user_id: user._id });
+		res.json({ token, user });
 
-	usersService.login(req.body)
-		.then(user => {
-			const token = jwt.sign({ id: user._id, name: user.name, email: user.email }, 'CLAVE_SECRETA');
-			
-			tokenService.create({ token, user_id: user._id });
-			
-			res.json({ token, user });
-		})
-		.catch(err => {
-			res.status(400).json({ message: err.message });
-		})
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
 }
 
-function logout(req, res) {
+async function logout(req, res) {
 	const token = req.headers['auth-token'];
+	try {
+		await tokenService.removeByToken(token);
+		res.json({ message: 'Logout exitoso' });
 
-	tokenService.removeByToken(token)
-		.then(() => {
-			res.json({ message: 'Logout exitoso' });
-		})
-		.catch(err => {
-			res.status(400).json({ message: err.message });
-		})
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
 }
 
-function find(req, res) {
-	const filter = {}
-
+async function find(req, res) {
+	const filter = {};
 	const token = req.headers['auth-token'];
 
 	if (!token) {
 		return res.status(401).json({ message: 'No enviaste el token' });
 	}
-	
-	try {
-		const payload = jwt.verify(token, 'CLAVE_SECRETA')
-	} catch (err) {
-		return res.status(401).json({ message: 'Token inválido' });
-	}
 
-	usersService.find(filter)
-		.then(users => res.json(users))
+	try {
+		jwt.verify(token, 'CLAVE_SECRETA');
+		const users = await usersService.find(filter);
+		res.json(users);
+
+	} catch (error) {
+		res.status(401).json({ message: 'Token inválido' });
+	}
 }
 
-function create(req, res) {
+async function create(req, res) {
 	const user = {
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password
-	}
+	};
 
-	usersService.create(user)
-		.then(user => {
-			res.json(user);
-		})
-		.catch(err => {
-			res.status(400).json({ message: err.message });
-		})
+	try {
+		const newUser = await usersService.create(user);
+		res.json(newUser);
+
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
 }
 
-function remove(req, res) {
+async function remove(req, res) {
 	const id = req.params.id;
 
-	usersService.remove(id)
-		.then(() => res.json({ message: 'Usuario eliminado' }))
-		.catch(err => res.status(400).json({ message: err.message }))
+	try {
+		await usersService.remove(id);
+		res.json({ message: 'Usuario eliminado' });
+		
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
 }
-
 
 export {
 	login,
@@ -79,4 +77,4 @@ export {
 	find,
 	create,
 	remove,
-}
+};
